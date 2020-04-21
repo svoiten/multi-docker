@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t svoitenk/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true svoitenk/react-test npm test
+
+after_success:
+  - docker build -t svoitenk/multi-client ./client
+  - docker build -t svoitenk/multi-nginx ./nginx
+  - docker build -t svoitenk/multi-server ./server
+  - docker build -t svoitenk/multi-worker ./worker
+# Log in to the docker CLI
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Take those images and push them to docker hub
+- docker push svoitenk/multi-client
+- docker push svoitenk/multi-nginx
+- docker push svoitenk/multi-server
+- docker push svoitenk/multi-worker
+
+
