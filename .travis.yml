@@ -10,16 +10,16 @@ script:
   - docker run -e CI=true svoitenk/react-test npm test
 
 after_success:
-  - docker build -t svoitenk/multi-client ./client
-  - docker build -t svoitenk/multi-nginx ./nginx
-  - docker build -t svoitenk/multi-server ./server
-  - docker build -t svoitenk/multi-worker ./worker
+  - docker build -t sergmk/multi-client ./client
+  - docker build -t sergmk/multi-nginx ./nginx
+  - docker build -t sergmk/multi-server ./server
+  - docker build -t sergmk/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push svoitenk/multi-client
-  - docker push svoitenk/multi-nginx
-  - docker push svoitenk/multi-server
-  - docker push svoitenk/multi-worker
+  - docker push sergmk/multi-client
+  - docker push sergmk/multi-nginx
+  - docker push sergmk/multi-server
+  - docker push sergmk/multi-worker
 
 
